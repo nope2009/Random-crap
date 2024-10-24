@@ -1,0 +1,46 @@
+{
+   "Browser": "Chrome/95.0.4638.69",
+   "Protocol-Version": "1.3",
+   "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+   "V8-Version": "9.5.172.25",
+   "WebKit-Version": "537.36 (@6a1600eda2fedecd573b6c2b90a22fe6392a410)",
+   "webSocketDebuggerUrl": "ws://127.0.0.1:9222/devtools/browser/0aeb09d9-741c-47dd-85ab-db195257b6e8"
+}
+const puppeteer = require('puppeteer');
+(async () => {
+	const wsChromeEndpointUrl = 'ws://127.0.0.1:9222/devtools/browser/0aeb09d9-741c-47bd-85ab-bb195257b6e8';
+	const browser = await puppeteer.connect({
+		browserWSEndpoint: wsChromeEndpointUrl
+	});
+})();
+const puppeteer = require('puppeteer');
+(async () => {
+	const wsChromeEndpointUrl = 'ws://127.0.0.1:9222/devtools/browser/0aeb09d9-741c-47bd-85ab-db195257b6e8';
+	const browser = await puppeteer.connect({
+		browserWSEndpoint: wsChromeEndpointUrl
+	});
+
+	const pages = await browser.pages();
+	let page = await openCookieClicker(pages, browser);
+	page.setViewport({width: 1920, height: 1080});
+})();
+
+async function openCookieClicker(pages, browser) {
+	for (let page of pages) {
+		if (page.url() === 'https://orteil.dashnet.org/cookieclicker/') {
+			return page;
+		}
+	}
+	let page = await browser.newPage();
+	await page.goto('https://orteil.dashnet.org/cookieclicker');
+	return page;
+}
+function startAutoClicker(page) {
+	botLoop = setInterval(async () => {
+		await page.click('#bigCookie');
+	}, 10)
+}
+const pages = await browser.pages();
+let page = await openCookieClicker(pages, browser);
+page.setViewport({width: 1920, height: 1080});
+startAutoClicker(page); // add this
